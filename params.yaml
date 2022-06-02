@@ -1,0 +1,24 @@
+---
+# All commands for each experiment with params to be filled specified as `{param}` or `[param]`
+# `{_output}` is a reserved param for the automatically generated output directory
+template:
+  train: >
+    echo "python {method}.py --gamma 0.5 --output_dir {_output}/adv_images --arch {surrogate} --batch-size 40 --num-steps {n_step}"
+
+  test: >
+    echo "python evaluate.py --input_dir {_output}/adv_images --arch {target}"
+
+# default values for all params
+default:
+  surrogate: resnet152
+  target: vgg19_bn
+
+# GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
+resource: [ 0 ]
+
+---
+# compare the effect of different normalization layer and moment 
+method: [ attack_sgm ]
+n_step: [ 10, 20 ]
+surrogate: [ resnet152 ]
+target: [ vgg19_bn, senet154 ]
