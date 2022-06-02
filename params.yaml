@@ -3,15 +3,16 @@
 # `{_output}` is a reserved param for the automatically generated output directory
 template:
   train: >
-    echo "python {method}.py --gamma 0.5 --output_dir {_output}/adv_images --arch {surrogate} --batch-size 40 --num-steps {n_step}"
+    python {method}.py --gamma {gamma} --output_dir {_output}/adv_images --arch {surrogate} --batch-size {batch_size} --num-steps {n_step}
 
   test: >
-    echo "python evaluate.py --input_dir {_output}/adv_images --arch {target}"
+    python evaluate.py --input_dir {_output}/adv_images --arch vgg19_bn && python evaluate.py --input_dir {_output}/adv_images --arch senet154
 
 # default values for all params
 default:
   surrogate: resnet152
-  target: vgg19_bn
+  gamma: 0.5
+  batch_size: 40
 
 # GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
 resource: [ 0 ]
@@ -21,4 +22,3 @@ resource: [ 0 ]
 method: [ attack_sgm ]
 n_step: [ 10, 20 ]
 surrogate: [ resnet152 ]
-target: [ vgg19_bn, senet154 ]
