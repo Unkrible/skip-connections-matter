@@ -73,10 +73,10 @@ def main():
     criterion = nn.CrossEntropyLoss().cuda()
     model = model.cuda()
 
-    validate(val_loader, model, criterion)
+    validate(val_loader, model, criterion, args.arch)
 
 
-def validate(val_loader, model, criterion):
+def validate(val_loader, model, criterion, arch):
     with torch.no_grad():
         batch_time = AverageMeter()
         losses = AverageMeter()
@@ -116,8 +116,8 @@ def validate(val_loader, model, criterion):
                        i, len(val_loader), batch_time=batch_time, loss=losses,
                        top1=top1, top5=top5))
 
-        print('* Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f}'
-              .format(top1=top1, top5=top5))
+        print('{arch} * Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f}'
+              .format(arch=arch, top1=top1, top5=top5))
 
         return top1.avg, top5.avg
 
