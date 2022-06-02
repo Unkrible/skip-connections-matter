@@ -38,6 +38,11 @@ parser.add_argument('--print_freq', default=10, type=int)
 
 args = parser.parse_args()
 
+import os
+
+if not os.path.exists(args.output_dir):
+    os.makedirs(args.output_dir)
+
 # settings
 use_cuda = not args.no_cuda and torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
