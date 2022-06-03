@@ -6,7 +6,7 @@ template:
     python {method}.py --gamma {gamma} --output_dir {_output}/adv_images --arch {surrogate} --batch-size {batch_size} --num-steps {n_step}
 
   test: >
-    python evaluate.py --input_dir {_output}/adv_images --arch vgg19_bn && python evaluate.py --input_dir {_output}/adv_images --arch senet154
+    python evaluate.py --input_dir {_output}/adv_images --arch vgg19_bn 
 
 # default values for all params
 default:
