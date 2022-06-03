@@ -9,7 +9,6 @@ from tqdm import *
 from PIL import Image
 import torch.nn as nn
 import torch.nn.functional as F
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 from torchvision import models, transforms
 from utils_gr import get_truth_info, imgnormalize, gkern, DI, get_gaussian_kernel
 
