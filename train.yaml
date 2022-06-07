@@ -6,19 +6,21 @@ template:
     python {method}.py --gamma {gamma} --output_dir {_output}/adv_images --arch {surrogate} --batch-size {batch_size} --num-steps {n_step}
 
   test: >
-    python evaluate.py --input_dir {_output}/adv_images --arch vgg19_bn 
+    python evaluate.py --input_dir {_output}/adv_images --arch {target}
 
 # default values for all params
 default:
   surrogate: resnet152
-  gamma: 0.5
-  batch_size: 40
+  gamma: 1.0
+  batch_size: 128
 
 # GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
-resource: [ 0 ]
+resource: [ 0, 1 ]
 
 ---
-# compare the effect of different normalization layer and moment 
-method: [ attack_sgm ]
-n_step: [ 10, 20 ]
+# compare the effect of different normalization layer and moment
+method: [ attack_scm ]
+n_step: [ 10 ]
 surrogate: [ resnet152 ]
+gamma: [ 1.5, 1.25, 1.0, 0.75, 0.6, 0.55, 0.5, 0.45, 0.35, 0.3, 0.25 ]
+target: [ vgg19_bn ]

@@ -1,0 +1,23 @@
+---
+# All commands for each experiment with params to be filled specified as `{param}` or `[param]`
+# `{_output}` is a reserved param for the automatically generated output directory
+template:
+  test: >
+    python evaluate.py --input_dir ./output/Method_{method}-nStep_{n_step}-Surrogate_{surrogate}-Gamma_{gamma}/adv_images --arch {target}
+
+# default values for all params
+default:
+  surrogate: resnet152
+  gamma: 1.0
+  batch_size: 128
+
+# GPU indices to be filled in `CUDA_VISIBLE_DEVICES={}`, each corresponds to a worker.
+resource: [ 0, 1 ]
+
+---
+# compare the effect of different normalization layer and moment
+method: [ attack_scm ]
+n_step: [ 10 ]
+surrogate: [ resnet152 ]
+gamma: [ 1.5, 1.25, 1.0, 0.75, 0.6, 0.55, 0.5, 0.45, 0.35, 0.3, 0.25 ]
+target: [ senet154, inceptionv3, inceptionv4 ]
